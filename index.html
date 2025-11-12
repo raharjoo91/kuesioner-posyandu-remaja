@@ -1571,8 +1571,13 @@
         }
 
         let isSubmitted = false;
+        let isSubmitting = false;
 
-        function handleSubmit() {
+        // Google Sheets Web App URL - Replace with your own URL after setting up Google Apps Script
+        // See GOOGLE_SHEETS_SETUP.md for instructions
+        const GOOGLE_SHEETS_WEB_APP_URL = ''; // Paste your Google Apps Script Web App URL here
+
+        async function handleSubmit() {
             const section = questionnaireData.sections[currentSection];
             const sectionErrors = validateSection(section);
             
@@ -1601,12 +1606,37 @@
                 return;
             }
 
-            // Submit form
+            // Prepare data for submission
             const finalData = {
                 timestamp: new Date().toISOString(),
                 responses: formData
             };
 
+            // Show loading state
+            isSubmitting = true;
+            render();
+
+            // Try to submit to Google Sheets if URL is configured
+            if (GOOGLE_SHEETS_WEB_APP_URL) {
+                try {
+                    const response = await fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(finalData)
+                    });
+                    
+                    // Note: no-cors mode doesn't allow reading response, but data is sent
+                    console.log('Data sent to Google Sheets');
+                } catch (error) {
+                    console.error('Error sending to Google Sheets:', error);
+                    // Continue anyway - still download JSON as backup
+                }
+            }
+
+            // Always download JSON file as backup
             const dataStr = JSON.stringify(finalData, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(dataBlob);
@@ -1615,6 +1645,7 @@
             link.download = `kuesioner-posyandu-${Date.now()}.json`;
             link.click();
 
+            isSubmitting = false;
             isSubmitted = true;
             render();
         }
