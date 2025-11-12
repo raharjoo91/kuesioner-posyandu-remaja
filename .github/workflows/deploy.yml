@@ -35,11 +35,13 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
+      continue-on-error: false
       
     - name: Build
       run: npm run build
       env:
         PUBLIC_URL: /kuesioner-posyandu-remaja
+        CI: false
       
     - name: Setup Pages
       uses: actions/configure-pages@v4
