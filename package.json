@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Questionnaire application for Posyandu Remaja (Youth Health Post)",
   "private": true,
-  "homepage": "https://yourusername.github.io/kuesioner-posyandu-remaja",
+  "homepage": "https://raharjoo91.github.io/kuesioner-posyandu-remaja",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
