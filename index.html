@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuesioner Posyandu Remaja</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .header .description {
+            color: #666;
+            font-size: 1.1rem;
+            white-space: pre-line;
+            line-height: 1.8;
+        }
+
+        .progress-bar-container {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .section-number {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .section-description {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .question-group {
+            margin-bottom: 25px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-field {
+            margin-bottom: 20px;
+        }
+
+        .question-label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .required {
+            color: #e74c3c;
+            margin-left: 5px;
+        }
+
+        .question-help {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input.error, .form-textarea.error, .form-select.error {
+            border-color: #e74c3c;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-label, .checkbox-label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-label:hover, .checkbox-label:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-label input[type="radio"], .checkbox-label input[type="checkbox"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-text,
+        .checkbox-label input[type="checkbox"]:checked + .checkbox-text {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .radio-label:has(input[type="radio"]:checked),
+        .checkbox-label:has(input[type="checkbox"]:checked) {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .scale-group {
+            margin-top: 10px;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .scale-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .scale-label {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scale-label:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .scale-label input[type="radio"] {
+            margin-bottom: 8px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .scale-label:has(input[type="radio"]:checked) {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .scale-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .scale-label:has(input[type="radio"]:checked) .scale-number {
+            color: #667eea;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .error-message::before {
+            content: "⚠";
+            font-size: 1rem;
+        }
+
+        .info-box {
+            background: #f8f9ff;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .info-content {
+            white-space: pre-wrap;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #333;
+            margin: 0;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+
+        .submission-success {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            font-size: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .submission-success h2 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .submission-success p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .skip-section-message {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .skip-section-message p {
+            color: #856404;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px 0;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .scale-options {
+                flex-wrap: wrap;
+            }
+
+            .scale-label {
+                min-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Content will be rendered here by JavaScript -->
+    </div>
+
+    <script>
+        // Questionnaire Data
+        const questionnaireData = {
+            title: "KUESIONER PENELITIAN",
+            subtitle: "EVALUASI EFEKTIVITAS PROGRAM POSYANDU REMAJA DALAM MENINGKATKAN KESADARAN MENTAL DAN REPRODUKSI REMAJA DI KOTA DEPOK",
+            description: "Petunjuk Pengisian:\n1. Bacalah setiap pernyataan dengan saksama dan tanpa terburu-buru.\n2. Isi dan berilah tanda centang (✓) pada kolom yang sesuai dengan pendapat Anda!",
+            sections: [
+                {
+                    id: "informed_consent",
+                    title: "PERNYATAAN KESEDIAAN RESPONDEN",
+                    description: "Kami mengundang Saudara/i untuk menjadi responden dalam penelitian dengan judul \"Evaluasi Efektivitas Program Posyandu Remaja dalam Meningkatkan Kesadaran Mental dan Reproduksi Remaja di Kota Depok\". Penelitian ini dilakukan oleh kami tim peneliti dari Fakultas Ilmu Kesehatan Universitas Pembangunan Nasional Veteran Jakarta.",
+                    questions: [
+                        {
+                            id: "consent_info",
+                            type: "info",
+                            label: "Informasi Penelitian",
+                            content: `Sebelum anda melanjutkan, harap membaca informasi tersebut secara seksama:\n\n1. Partisipasi Bersifat Sukarela\nSaudara/i bebas untuk berpartisipasi atau menolak untuk mengisi kuesioner ini tanpa konsekuensi apa pun dan dapat berhenti kapan saja.\n\n2. Kerahasiaan Data\nSemua jawaban dan informasi yang telah diberikan akan dijaga kerahasiaannya dan hanya digunakan untuk kepentingan penelitian.\n\n3. Durasi dan Cara Pengisian\nPengisian kuesioner ini akan memakan waktu sekitar 25 – 30 menit.\n\n4. Keuntungan dan Risiko\nTidak ada risiko yang besar dalam penelitian ini, tetapi partisipasi anda akan membantu dalam peningkatan pemahaman mengenai efektivitas program Posyandu Remaja dalam meningkatkan kesehatan mental dan reproduksi remaja.`
+                        },
+                        {
+                            id: "consent_agreement",
+                            type: "radio",
+                            label: "Dengan melanjutkan kuesioner ini maka saya telah membaca dan memahami semua informasi diatas dan menyatakan bahwa:",
+                            required: true,
+                            options: [
+                                { value: "setuju", label: "Saya setuju untuk berpartisipasi dalam penelitian ini." },
+                                { value: "tidak_setuju", label: "Saya tidak setuju untuk berpartisipasi." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "identitas",
+                    title: "BAGIAN I: IDENTITAS RESPONDEN",
+                    questions: [
+                        {
+                            id: "usia",
+                            type: "number",
+                            label: "Usia",
+                            required: true,
+                            placeholder: "Masukkan usia dalam tahun",
+                            min: 10,
+                            max: 25
+                        },
+                        {
+                            id: "tanggal_lahir",
+                            type: "date",
+                            label: "Tanggal Lahir",
+                            required: true
+                        },
+                        {
+                            id: "jenis_kelamin",
+                            type: "radio",
+                            label: "Jenis Kelamin",
+                            required: true,
+                            options: [
+                                { value: "laki_laki", label: "Laki-Laki" },
+                                { value: "perempuan", label: "Perempuan" }
+                            ]
+                        },
+                        {
+                            id: "tingkat_pendidikan",
+                            type: "radio",
+                            label: "Tingkat Pendidikan",
+                            required: true,
+                            options: [
+                                { value: "sd", label: "SD" },
+                                { value: "smp", label: "SMP/sederajat" },
+                                { value: "sma", label: "SMA/sederajat" },
+                                { value: "lainnya", label: "Lainnya" }
+                            ]
+                        },
+                        {
+                            id: "pendidikan_lainnya",
+                            type: "text",
+                            label: "Sebutkan tingkat pendidikan lainnya",
+                            conditional: { field: "tingkat_pendidikan", value: "lainnya" }
+                        },
+                        {
+                            id: "status",
+                            type: "checkbox",
+                            label: "Status",
+                            required: true,
+                            options: [
+                                { value: "masih_sekolah", label: "Masih Sekolah" },
+                                { value: "sudah_lulus", label: "Sudah Lulus" },
+                                { value: "bekerja", label: "Bekerja" },
+                                { value: "tidak_bekerja", label: "Tidak Bekerja" }
+                            ]
+                        },
+                        {
+                            id: "kecamatan",
+                            type: "radio",
+                            label: "Kecamatan Tempat Tinggal",
+                            required: true,
+                            options: [
+                                { value: "beji", label: "Beji" },
+                                { value: "bojongsari", label: "Bojongsari" },
+                                { value: "cilodong", label: "Cilodong" },
+                                { value: "cimanggis", label: "Cimanggis" },
+                                { value: "cinere", label: "Cinere" },
+                                { value: "cipayung", label: "Cipayung" },
+                                { value: "limo", label: "Limo" },
+                                { value: "pancoran_mas", label: "Pancoran Mas" },
+                                { value: "sawangan", label: "Sawangan" },
+                                { value: "sukmajaya", label: "Sukmajaya" },
+                                { value: "tapos", label: "Tapos" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Puskesmas mapping
+        const puskesmasMapping = {
+            'sawangan': {
+                id: 'puskesmas',
+                options: [
+                    { value: "uptd_sawangan", label: "UPTD Puskesmas Sawangan" },
+                    { value: "uptd_pasir_putih", label: "UPTD Puskesmas Pasir Putih" },
+                    { value: "uptd_kedaung", label: "UPTD Puskesmas Kedaung" },
+                    { value: "uptd_cinangka", label: "UPTD Puskesmas Cinangka" },
+                    { value: "uptd_pengasinan", label: "UPTD Puskesmas Pengasinan" }
+                ]
+            },
+            'bojongsari': {
+                id: 'puskesmas_bojongsari',
+                options: [
+                    { value: "uptd_bojongsari", label: "UPTD Puskesmas Bojongsari" },
+                    { value: "uptd_duren_seribu", label: "UPTD Puskesmas Duren Seribu" }
+                ]
+            },
+            'pancoran_mas': {
+                id: 'puskesmas_pancoran_mas',
+                options: [
+                    { value: "uptd_pancoran_mas", label: "UPTD Puskesmas Pancoran Mas" },
+                    { value: "uptd_depok_jaya", label: "UPTD Puskesmas Depok Jaya" },
+                    { value: "uptd_mampang", label: "UPTD Puskesmas Mampang" },
+                    { value: "uptd_rangkapan_jaya_baru", label: "UPTD Puskesmas Rangkapan Jaya Baru" }
+                ]
+            },
+            'cipayung': {
+                id: 'puskesmas_cipayung',
+                options: [
+                    { value: "uptd_cipayung", label: "UPTD Puskesmas Cipayung" },
+                    { value: "uptd_ratu_jaya", label: "UPTD Puskesmas Ratu Jaya" }
+                ]
+            },
+            'sukmajaya': {
+                id: 'puskesmas_sukmajaya',
+                options: [
+                    { value: "uptd_sukmajaya", label: "UPTD Puskesmas Sukmajaya" },
+                    { value: "uptd_abadi_jaya", label: "UPTD Puskesmas Abadi Jaya" },
+                    { value: "uptd_bhaktijaya", label: "UPTD Puskesmas Bhaktijaya" },
+                    { value: "uptd_pondok_sukmajaya", label: "UPTD Puskesmas Pondok Sukmajaya" }
+                ]
+            },
+            'cilodong': {
+                id: 'puskesmas_cilodong',
+                options: [
+                    { value: "uptd_cilodong", label: "UPTD Puskesmas Cilodong" },
+                    { value: "uptd_villa_pertiwi", label: "UPTD Puskesmas Villa Pertiwi" },
+                    { value: "uptd_kalimulya", label: "UPTD Puskesmas Kalimulya" }
+                ]
+            },
+            'cimanggis': {
+                id: 'puskesmas_cimanggis',
+                options: [
+                    { value: "uptd_cimanggis", label: "UPTD Puskesmas Cimanggis" },
+                    { value: "uptd_tugu", label: "UPTD Puskesmas Tugu" },
+                    { value: "uptd_harjamukti", label: "UPTD Puskesmas Harjamukti" },
+                    { value: "uptd_pasir_gunung_selatan", label: "UPTD Puskesmas Pasir Gunung Selatan" },
+                    { value: "uptd_mekarsari", label: "UPTD Puskesmas Mekarsari" },
+                    { value: "uptd_cisalak_pasar", label: "UPTD Puskesmas Cisalak Pasar" }
+                ]
+            },
+            'tapos': {
+                id: 'puskesmas_tapos',
+                options: [
+                    { value: "uptd_tapos", label: "UPTD Puskesmas Tapos" },
+                    { value: "uptd_sukatani", label: "UPTD Puskesmas Sukatani" },
+                    { value: "uptd_jatijajar", label: "UPTD Puskesmas Jatijajar" },
+                    { value: "uptd_cilangkap", label: "UPTD Puskesmas Cilangkap" },
+                    { value: "uptd_cimpaeun", label: "UPTD Puskesmas Cimpaeun" },
+                    { value: "uptd_sukamaju_baru", label: "UPTD Puskesmas Sukamaju Baru" }
+                ]
+            },
+            'beji': {
+                id: 'puskesmas_beji',
+                options: [
+                    { value: "uptd_beji", label: "UPTD Puskesmas Beji" },
+                    { value: "uptd_depok_utara", label: "UPTD Puskesmas Depok Utara" },
+                    { value: "uptd_tanah_baru", label: "UPTD Puskesmas Tanah Baru" },
+                    { value: "uptd_kemiri_muka", label: "UPTD Puskesmas Kemiri Muka" }
+                ]
+            },
+            'limo': {
+                id: 'puskesmas_limo',
+                options: [
+                    { value: "uptd_limo", label: "UPTD Puskesmas Limo" }
+                ]
+            },
+            'cinere': {
+                id: 'puskesmas_cinere',
+                options: [
+                    { value: "uptd_cinere", label: "UPTD Puskesmas Cinere" }
+                ]
+            }
+        };
+
+        // Add Puskesmas questions to identitas section
+        Object.keys(puskesmasMapping).forEach(kecamatan => {
+            questionnaireData.sections[1].questions.push({
+                id: puskesmasMapping[kecamatan].id,
+                type: "radio",
+                label: "Wilayah Binaan Puskesmas",
+                required: true,
+                conditional: { field: "kecamatan", value: kecamatan },
+                options: puskesmasMapping[kecamatan].options
+            });
+        });
+
+        // Add remaining sections (I'll add the key ones, you can expand)
+        questionnaireData.sections.push({
+            id: "keterlibatan",
+            title: "BAGIAN II: KETERLIBATAN DENGAN POSYANDU REMAJA",
+            questions: [
+                {
+                    id: "pernah_mengikuti",
+                    type: "radio",
+                    label: "Apakah Anda pernah mengikuti kegiatan Posyandu Remaja?",
+                    required: true,
+                    options: [
+                        { value: "ya", label: "Ya" },
+                        { value: "tidak", label: "Tidak" }
+                    ]
+                },
+                {
+                    id: "nama_posyandu",
+                    type: "text",
+                    label: "Nama Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    placeholder: "Masukkan nama Posyandu Remaja"
+                },
+                {
+                    id: "rt_rw_posyandu",
+                    type: "text",
+                    label: "RT/RW Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    placeholder: "Contoh: RT 05/RW 03"
+                },
+                {
+                    id: "lama_anggota",
+                    type: "radio",
+                    label: "Lama menjadi anggota Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "kurang_6_bulan", label: "< 6 bulan" },
+                        { value: "6_12_bulan", label: "6 – 12 bulan" },
+                        { value: "lebih_12_bulan", label: "> 12 bulan" }
+                    ]
+                },
+                {
+                    id: "tahu_posyandu",
+                    type: "radio",
+                    label: "Apakah Anda tahu tentang Posyandu Remaja?",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "tidak" },
+                    options: [
+                        { value: "ya", label: "Ya" },
+                        { value: "tidak", label: "Tidak" }
+                    ]
+                },
+                {
+                    id: "wilayah_memiliki_posyandu",
+                    type: "radio",
+                    label: "Apakah wilayah Anda memiliki Posyandu Remaja?",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "tidak" },
+                    options: [
+                        { value: "ya", label: "Ya" },
+                        { value: "tidak", label: "Tidak" }
+                    ]
+                },
+                {
+                    id: "alasan_tidak_ikut",
+                    type: "radio",
+                    label: "Jika tidak ikut, apa alasan Anda tidak mengikuti kegiatan Posyandu Remaja?",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "tidak" },
+                    options: [
+                        { value: "tidak_tahu", label: "Tidak tahu tentang Posyandu Remaja" },
+                        { value: "tidak_ada", label: "Tidak ada Posyandu Remaja di wilayah saya" },
+                        { value: "tidak_tertarik", label: "Tidak tertarik" },
+                        { value: "waktu_tidak_sesuai", label: "Waktu tidak sesuai" },
+                        { value: "lainnya", label: "Alasan lainnya" }
+                    ]
+                },
+                {
+                    id: "alasan_lainnya",
+                    type: "text",
+                    label: "Sebutkan alasan lainnya",
+                    conditional: { field: "alasan_tidak_ikut", value: "lainnya" },
+                    placeholder: "Masukkan alasan lainnya"
+                }
+            ]
+        });
+
+        questionnaireData.sections.push({
+            id: "partisipasi",
+            title: "BAGIAN III: PARTISIPASI DALAM PROGRAM POSYANDU REMAJA",
+            description: "Bagian ini bertujuan untuk mengetahui tingkat partisipasi dan dukungan lingkungan responden terhadap pelaksanaan kegiatan Posyandu Remaja",
+            questions: [
+                {
+                    id: "frekuensi_kehadiran",
+                    type: "radio",
+                    label: "Frekuensi kehadiran dalam kegiatan Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "jarang", label: "Jarang (< 3 kali dalam 6 bulan)" },
+                        { value: "kadang_kadang", label: "Kadang-kadang (tidak rutin)" },
+                        { value: "setiap_bulan", label: "Setiap bulan" }
+                    ]
+                },
+                {
+                    id: "pernah_kader",
+                    type: "radio",
+                    label: "Pernah menjadi kader Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "ya", label: "Ya" },
+                        { value: "tidak", label: "Tidak" }
+                    ]
+                },
+                {
+                    id: "jenis_kegiatan",
+                    type: "radio",
+                    label: "Jenis kegiatan yang paling sering diikuti",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "penyuluhan", label: "Penyuluhan/ edukasi kesehatan" },
+                        { value: "konseling", label: "Konseling/ diskusi kelompok" },
+                        { value: "pemeriksaan", label: "Pemeriksaan kesehatan" },
+                        { value: "keterampilan", label: "Kegiatan keterampilan/ pelatihan" },
+                        { value: "lainnya", label: "Lainnya" }
+                    ]
+                },
+                {
+                    id: "jenis_kegiatan_lainnya",
+                    type: "text",
+                    label: "Sebutkan jenis kegiatan lainnya",
+                    conditional: { field: "jenis_kegiatan", value: "lainnya" },
+                    placeholder: "Masukkan jenis kegiatan lainnya"
+                },
+                {
+                    id: "sumber_informasi",
+                    type: "radio",
+                    label: "Sumber informasi utama yang membuat Anda mengetahui tentang Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "sekolah", label: "Sekolah/ guru" },
+                        { value: "teman", label: "Teman sebaya" },
+                        { value: "keluarga", label: "Keluarga/ orang tua" },
+                        { value: "lainnya", label: "Lainnya" }
+                    ]
+                },
+                {
+                    id: "sumber_informasi_lainnya",
+                    type: "text",
+                    label: "Sebutkan sumber informasi lainnya",
+                    conditional: { field: "sumber_informasi", value: "lainnya" },
+                    placeholder: "Masukkan sumber informasi lainnya"
+                },
+                {
+                    id: "akses_lokasi",
+                    type: "radio",
+                    label: "Akses ke Lokasi Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "jauh", label: "Jauh (> 15 menit naik kendaraan)" },
+                        { value: "sedang", label: "Sedang (≤ 15 menit naik kendaraan)" },
+                        { value: "dekat", label: "Dekat (dapat berjalan kaki)" }
+                    ]
+                },
+                {
+                    id: "alasan_mengikuti",
+                    type: "radio",
+                    label: "Alasan utama mengikuti kegiatan Posyandu Remaja",
+                    required: true,
+                    conditional: { field: "pernah_mengikuti", value: "ya" },
+                    options: [
+                        { value: "ingin_tahu", label: "Ingin mengetahui tentang kesehatan reproduksi dan kesehatan mental" },
+                        { value: "mengikuti_teman", label: "Mengikuti teman yang lain" },
+                        { value: "arahan_orangtua", label: "Arahan orang tua" },
+                        { value: "manfaat", label: "Ingin mendapat manfaat (sertifikat, hadiah, dll)" },
+                        { value: "lainnya", label: "Lainnya" }
+                    ]
+                },
+                {
+                    id: "alasan_mengikuti_lainnya",
+                    type: "text",
+                    label: "Sebutkan alasan lainnya",
+                    conditional: { field: "alasan_mengikuti", value: "lainnya" },
+                    placeholder: "Masukkan alasan lainnya"
+                }
+            ]
+        });
+
+        // Add scale sections (IV-VII) - I'll create a helper function to generate them
+        function createScaleSection(id, title, description, questions) {
+            return {
+                id: id,
+                title: title,
+                description: description,
+                questions: questions.map(q => ({
+                    ...q,
+                    type: "scale",
+                    required: true,
+                    scale: 5,
+                    scaleLabels: {
+                        min: "Sangat Tidak Setuju",
+                        max: "Sangat Setuju"
+                    }
+                }))
+            };
+        }
+
+        // Bagian IV: Konteks Program
+        questionnaireData.sections.push(createScaleSection(
+            "konteks",
+            "BAGIAN IV: KONTEKS PROGRAM (CONTEXT)",
+            "Bagian ini bertujuan untuk menilai sejauh mana program Posyandu Remaja sesuai dengan kebutuhan, harapan dan dukungan lingkungan remaja. Keterangan: 1 = Sangat Tidak Setuju; 2 = Tidak Setuju; 3 = Ragu-ragu; 4 = Setuju; 5 = Sangat Setuju",
+            [
+                { id: "konteks_1", label: "Saya membutuhkan informasi tentang kesehatan mental dan reproduksi." },
+                { id: "konteks_2", label: "Topik kegiatan Posyandu Remaja sesuai dengan permasalahan remaja saat ini." },
+                { id: "konteks_3", label: "Kegiatan Posyandu Remaja membantu saya memahami masalah psikologis yang saya hadapi." },
+                { id: "konteks_4", label: "Program ini relevan dengan kebutuhan remaja di lingkungan saya." },
+                { id: "konteks_5", label: "Saya merasa Posyandu Remaja penting untuk menjaga kesehatan remaja." },
+                { id: "konteks_6", label: "Posyandu Remaja menjadi tempat yang aman untuk berdiskusi tentang kesehatan mental." },
+                { id: "konteks_7", label: "Posyandu Remaja menyediakan informasi yang jarang saya dapatkan di sekolah." },
+                { id: "konteks_8", label: "Orang tua saya mendukung keikutsertaan saya dalam kegiatan Posyandu Remaja." },
+                { id: "konteks_9", label: "Teman-teman saya juga tertarik mengikuti kegiatan Posyandu Remaja." },
+                { id: "konteks_10", label: "Jadwal kegiatan Posyandu Remaja sesuai dengan waktu luang yang saya miliki." },
+                { id: "konteks_11", label: "Lingkungan sekitar (RT/RW) saya mendukung adanya Posyandu Remaja." },
+                { id: "konteks_12", label: "Materi tentang kesehatan reproduksi disampaikan dengan memperhatikan budaya lokal." },
+                { id: "konteks_13", label: "Program pada Posyandu Remaja memperhatikan perbedaan kebutuhan antara remaja laki-laki dan Perempuan." },
+                { id: "konteks_14", label: "Saya merasa dihargai pendapatnya dalam kegiatan Posyandu Remaja." },
+                { id: "konteks_15", label: "Program Posyandu Remaja membantu membangun rasa percaya diri saya sebagai remaja." }
+            ]
+        ));
+
+        // Bagian V: Masukan Program
+        questionnaireData.sections.push(createScaleSection(
+            "masukan",
+            "BAGIAN V: MASUKAN PROGRAM (INPUT)",
+            "Bagian ini bertujuan untuk menilai kesiapan sumber daya manusia, sarana, media dan dukungan kelembagaan. Keterangan: 1 = Sangat Tidak Setuju; 2 = Tidak Setuju; 3 = Ragu-ragu; 4 = Setuju; 5 = Sangat Setuju",
+            [
+                { id: "masukan_1", label: "Kader Posyandu Remaja menjelaskan materi dengan Bahasa yang mudah dipahami." },
+                { id: "masukan_2", label: "Kader memiliki pengetahuan yang baik tentang kesehatan mental dan reproduksi." },
+                { id: "masukan_3", label: "Kader memiliki sikap yang ramah dan terbuka." },
+                { id: "masukan_4", label: "Kader mampu memberikan konseling sederhana kepada remaja yang memiliki masalah." },
+                { id: "masukan_5", label: "Jumlah kader Posyandu Remaja sudah mencukupi untuk melayani peserta." },
+                { id: "masukan_6", label: "Tempat kegiatan Posyandu Remaja bersih, aman dan nyaman." },
+                { id: "masukan_7", label: "Fasilitas kegiatan (kursi, meja, alat tulis, dll) sudah memadai dalam pelaksanaan kegiatan." },
+                { id: "masukan_8", label: "Media edukasi (poster, video, dll) menarik dan mudah dimengerti." },
+                { id: "masukan_9", label: "Materi yang digunakan selalu diperbaharui sesuai dengan perkembangan remaja." },
+                { id: "masukan_10", label: "Program Posyandu Remaja mendapat dukungan dari puskesmas." },
+                { id: "masukan_11", label: "Ada kerja sama dengan tenaga professional seperti bidan, psikolog hingga penyuluh." },
+                { id: "masukan_12", label: "Kegiatan Posyandu Remaja memiliki dukungan dana yang memadai untuk pelaksanaan rutin." },
+                { id: "masukan_13", label: "Kegiatan didukung oleh pemerintah setempat." },
+                { id: "masukan_14", label: "Promosi kegiatan (Pamflet, brosur, media sosial dll) dilakukan dengan baik." },
+                { id: "masukan_15", label: "Kader mengikuti pelatihan rutin untuk meningkatkan kemampuan mereka." }
+            ]
+        ));
+
+        // Bagian VI: Proses
+        questionnaireData.sections.push(createScaleSection(
+            "proses",
+            "BAGIAN VI: PROSES PELAKSANAAN PROGRAM (PROCESS)",
+            "Bagian ini untuk menilai bagaimana kegiatan dijalankan, partisipasi peserta dan efektivitas metode penyampaian yang sudah dilakukan. Keterangan: 1 = Sangat Tidak Setuju; 2 = Tidak Setuju; 3 = Ragu-ragu; 4 = Setuju; 5 = Sangat Setuju",
+            [
+                { id: "proses_1", label: "Kegiatan Posyandu Remaja dilaksanakan secara rutin sesuai dengan jadwal yang telah ditentukan." },
+                { id: "proses_2", label: "Saya selalu mendapatkan pemberitahuan sebelum kegaitan akan dimulai." },
+                { id: "proses_3", label: "Saya hadir secara rutin dalam setiap kegiatan Posyandu Remaja." },
+                { id: "proses_4", label: "Kegiatan berlangsung tepat waktu dan teratur." },
+                { id: "proses_5", label: "Saya aktif dalam sesi diskusi dan tanya jawab selama kegiatan berlangsung." },
+                { id: "proses_6", label: "Kader memberikan kesempatan kepada peserta untuk menyampaikan pendapatnya." },
+                { id: "proses_7", label: "Materi disampaikan dengan cara yang menarik dan mudah untuk dipahami." },
+                { id: "proses_8", label: "Kegiatan menggunakan metode yang bervariasi (diskusi, games, simulasi, video, dll)." },
+                { id: "proses_9", label: "Kader dan peserta berinteraksi dengan baik selama kegiatan sedang berlangsung." },
+                { id: "proses_10", label: "Saya merasa suasana kegiatan menyenangkan dan tidak membosankan." },
+                { id: "proses_11", label: "Ada evaluasi atau refleksi di akhir kegiatan." },
+                { id: "proses_12", label: "Kegiatan Posyandu Remaja berjalan sesuai dengan rencana kerja." },
+                { id: "proses_13", label: "Ada dokumentasi kegiatan (foto, video, laporan, daftar hadir) setiap pelaksanaan kegiatan." },
+                { id: "proses_14", label: "Kader memberi contoh perilaku hidup sehat yang baik." },
+                { id: "proses_15", label: "Kegiatan Posyandu Remaja mendorong saya untuk menjadi pribadi yang lebih terbuka dalam menceritakan masalah pribadi dengan orang lain." }
+            ]
+        ));
+
+        // Bagian VII: Dampak
+        questionnaireData.sections.push(createScaleSection(
+            "dampak",
+            "BAGIAN VII: DAMPAK PROGRAM (PRODUCT)",
+            "Bagian ini untuk menilai dampak program terhadap pengetahuan, sikap, perilaku dan perubahan sosial pada remaja. Keterangan: 1 = Sangat Tidak Setuju; 2 = Tidak Setuju; 3 = Ragu-ragu; 4 = Setuju; 5 = Sangat Setuju",
+            [
+                { id: "dampak_1", label: "Saya menjadi lebih memahami pentingnya menjaga kesehatan mental dan kesehatan reproduksi." },
+                { id: "dampak_2", label: "Saya tahu cara mengelola stres dan kecemasan ringan." },
+                { id: "dampak_3", label: "Saya menjaga keseimbangan aktivitas belajar, istirahat dan hiburan untuk mendukung kesehatan mental saya." },
+                { id: "dampak_4", label: "Saya mengetahui risiko perilaku seksual yang tidak sehat." },
+                { id: "dampak_5", label: "Saya memiliki sikap positif terhadap pentingnya menjaga kesehatan diri." },
+                { id: "dampak_6", label: "Saya mulai menerapkan kebiasaan hidup sehat (makan bergizi, olahraga, tidak bergadang)." },
+                { id: "dampak_7", label: "Saya merasa lebih percaya diri setelah mengikuti kegiatan Posyandu Remaja." },
+                { id: "dampak_8", label: "Saya berani berkonsultasi dengan kader atau tenaga kesehatan saat memiliki masalah." },
+                { id: "dampak_9", label: "Saya lebih terbuka membicarakan masalah kesehatan mental dengan teman." },
+                { id: "dampak_10", label: "Saya dapat membedakan informasi kesehatan yang benar dan yang salah di media sosial." },
+                { id: "dampak_11", label: "Saya mengajak teman untuk ikut kegiatan Posyandu Remaja." },
+                { id: "dampak_12", label: "Kegiatan Posyandu Remaja mengubah cara pandang saya terhadap isu pernikahan dini." },
+                { id: "dampak_13", label: "Saya berinisiatif mengajak teman untuk hidup sehat dan menjaga kesehatan reproduksi." },
+                { id: "dampak_14", label: "Saya merasa lebih peduli terhadap kesehatan teman sebaya." },
+                { id: "dampak_15", label: "Saya ingin Posyandu Remaja terus dilaksanakan secara berkelanjutan." },
+                { id: "dampak_16", label: "Saya menjadi lebih mampu mengenali tanda-tanda stress atau tekanan psikologis pada diri saya sendiri." },
+                { id: "dampak_17", label: "Saya menjadi lebih peduli terhadap teman yang mengalami masalah kesehatan mental." }
+            ]
+        ));
+
+        // Application State
+        let currentSection = 0;
+        let formData = {};
+        let errors = {};
+
+        // Helper Functions
+        function getFormValue(sectionId, fieldId) {
+            return formData[sectionId]?.[fieldId];
+        }
+
+        function shouldShowQuestion(question, sectionData, allFormData) {
+            if (!question.conditional) {
+                // Special handling for Puskesmas
+                if (question.id && question.id.startsWith('puskesmas_')) {
+                    const kecamatan = allFormData?.identitas?.kecamatan;
+                    if (!kecamatan) return false;
+                    const mapping = puskesmasMapping[kecamatan];
+                    return mapping && question.id === mapping.id;
+                }
+                return true;
+            }
+
+            const conditionField = question.conditional.field;
+            const conditionValue = question.conditional.value;
+            let conditionData = sectionData[conditionField];
+
+            if (conditionData === undefined && allFormData) {
+                if (conditionField === 'kecamatan') {
+                    conditionData = allFormData.identitas?.[conditionField];
+                } else if (conditionField === 'pernah_mengikuti') {
+                    conditionData = allFormData.keterlibatan?.[conditionField];
+                } else if (['alasan_tidak_ikut', 'jenis_kegiatan', 'sumber_informasi', 'alasan_mengikuti'].includes(conditionField)) {
+                    conditionData = allFormData.keterlibatan?.[conditionField] || allFormData.partisipasi?.[conditionField];
+                } else if (conditionField === 'tingkat_pendidikan') {
+                    conditionData = allFormData.identitas?.[conditionField];
+                }
+            }
+
+            return conditionData === conditionValue;
+        }
+
+        function validateSection(section) {
+            const sectionErrors = {};
+            const sectionData = formData[section.id] || {};
+
+            if (['konteks', 'masukan', 'proses', 'dampak'].includes(section.id)) {
+                const pernahMengikuti = getFormValue('keterlibatan', 'pernah_mengikuti');
+                if (pernahMengikuti !== 'ya') {
+                    return sectionErrors;
+                }
+            }
+
+            section.questions.forEach(question => {
+                if (question.type === 'info') return;
+
+                let shouldValidate = true;
+                if (question.conditional) {
+                    const conditionField = question.conditional.field;
+                    const conditionValue = question.conditional.value;
+                    let conditionData = sectionData[conditionField];
+
+                    if (conditionData === undefined) {
+                        if (conditionField === 'kecamatan') {
+                            conditionData = getFormValue('identitas', conditionField);
+                        } else if (conditionField === 'pernah_mengikuti') {
+                            conditionData = getFormValue('keterlibatan', conditionField);
+                        } else if (['alasan_tidak_ikut', 'jenis_kegiatan', 'sumber_informasi', 'alasan_mengikuti'].includes(conditionField)) {
+                            conditionData = getFormValue('keterlibatan', conditionField) || getFormValue('partisipasi', conditionField);
+                        } else if (conditionField === 'tingkat_pendidikan') {
+                            conditionData = getFormValue('identitas', conditionField);
+                        }
+                    }
+                    shouldValidate = conditionData === conditionValue;
+                }
+
+                if (question.id && question.id.startsWith('puskesmas_')) {
+                    const kecamatan = getFormValue('identitas', 'kecamatan');
+                    const mapping = puskesmasMapping[kecamatan];
+                    if (kecamatan && question.id !== mapping?.id) {
+                        shouldValidate = false;
+                    }
+                }
+
+                if (shouldValidate && question.required) {
+                    const value = sectionData[question.id];
+                    if (!value || (Array.isArray(value) && value.length === 0)) {
+                        sectionErrors[question.id] = `${question.label} wajib diisi`;
+                    }
+                }
+            });
+
+            return sectionErrors;
+        }
+
+        function renderQuestion(question, sectionId) {
+            const sectionData = formData[sectionId] || {};
+            const value = sectionData[question.id];
+            const error = errors[sectionId]?.[question.id];
+
+            if (question.type === 'info') {
+                return `
+                    <div class="question-field info-field">
+                        ${question.label ? `<label class="question-label">${question.label}</label>` : ''}
+                        <div class="info-box">
+                            <pre class="info-content">${question.content}</pre>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let fieldHTML = '';
+
+            switch (question.type) {
+                case 'text':
+                    fieldHTML = `<input type="text" id="${question.id}" class="form-input ${error ? 'error' : ''}" 
+                        value="${value || ''}" placeholder="${question.placeholder || 'Masukkan jawaban...'}" 
+                        onchange="updateField('${sectionId}', '${question.id}', this.value)">`;
+                    break;
+
+                case 'textarea':
+                    fieldHTML = `<textarea id="${question.id}" class="form-textarea ${error ? 'error' : ''}" 
+                        rows="${question.rows || 4}" placeholder="${question.placeholder || 'Masukkan jawaban...'}"
+                        onchange="updateField('${sectionId}', '${question.id}', this.value)">${value || ''}</textarea>`;
+                    break;
+
+                case 'number':
+                    fieldHTML = `<input type="number" id="${question.id}" class="form-input ${error ? 'error' : ''}" 
+                        value="${value || ''}" placeholder="${question.placeholder || 'Masukkan angka...'}" 
+                        min="${question.min || ''}" max="${question.max || ''}"
+                        onchange="updateField('${sectionId}', '${question.id}', this.value ? parseFloat(this.value) : '')">`;
+                    break;
+
+                case 'date':
+                    fieldHTML = `<input type="date" id="${question.id}" class="form-input ${error ? 'error' : ''}" 
+                        value="${value || ''}" onchange="updateField('${sectionId}', '${question.id}', this.value)">`;
+                    break;
+
+                case 'radio':
+                    fieldHTML = '<div class="radio-group">';
+                    question.options.forEach(option => {
+                        const checked = value === option.value ? 'checked' : '';
+                        fieldHTML += `
+                            <label class="radio-label">
+                                <input type="radio" name="${question.id}" value="${option.value}" ${checked}
+                                    onchange="updateField('${sectionId}', '${question.id}', this.value)">
+                                <span class="radio-text">${option.label}</span>
+                            </label>
+                        `;
+                    });
+                    fieldHTML += '</div>';
+                    break;
+
+                case 'checkbox':
+                    fieldHTML = '<div class="checkbox-group">';
+                    question.options.forEach(option => {
+                        const checked = Array.isArray(value) && value.includes(option.value) ? 'checked' : '';
+                        fieldHTML += `
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="${option.value}" ${checked}
+                                    onchange="handleCheckboxChange('${sectionId}', '${question.id}', '${option.value}', this.checked)">
+                                <span class="checkbox-text">${option.label}</span>
+                            </label>
+                        `;
+                    });
+                    fieldHTML += '</div>';
+                    break;
+
+                case 'select':
+                    fieldHTML = `<select id="${question.id}" class="form-select ${error ? 'error' : ''}" 
+                        onchange="updateField('${sectionId}', '${question.id}', this.value)">
+                        <option value="">Pilih...</option>`;
+                    question.options.forEach(option => {
+                        const selected = value === option.value ? 'selected' : '';
+                        fieldHTML += `<option value="${option.value}" ${selected}>${option.label}</option>`;
+                    });
+                    fieldHTML += '</select>';
+                    break;
+
+                case 'scale':
+                    const scaleLabels = question.scaleLabels || { min: 'Sangat Tidak Setuju', max: 'Sangat Setuju' };
+                    fieldHTML = `
+                        <div class="scale-group">
+                            <div class="scale-labels">
+                                <span>${scaleLabels.min}</span>
+                                <span>${scaleLabels.max}</span>
+                            </div>
+                            <div class="scale-options">
+                    `;
+                    for (let i = 1; i <= (question.scale || 5); i++) {
+                        const checked = value === i.toString() ? 'checked' : '';
+                        fieldHTML += `
+                            <label class="scale-label">
+                                <input type="radio" name="${question.id}" value="${i}" ${checked}
+                                    onchange="updateField('${sectionId}', '${question.id}', this.value)">
+                                <span class="scale-number">${i}</span>
+                            </label>
+                        `;
+                    }
+                    fieldHTML += '</div></div>';
+                    break;
+            }
+
+            return `
+                <div class="question-field">
+                    <label for="${question.id}" class="question-label">
+                        ${question.label}
+                        ${question.required ? '<span class="required">*</span>' : ''}
+                    </label>
+                    ${question.helpText ? `<p class="question-help">${question.helpText}</p>` : ''}
+                    ${fieldHTML}
+                    ${error ? `<div class="error-message">${error}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function renderSection(section) {
+            const sectionData = formData[section.id] || {};
+            let questionsHTML = '';
+
+            section.questions.forEach(question => {
+                if (shouldShowQuestion(question, sectionData, formData)) {
+                    questionsHTML += `<div class="question-group">${renderQuestion(question, section.id)}</div>`;
+                }
+            });
+
+            return `
+                <div class="section-header">
+                    <h2>
+                        ${section.title}
+                        <span class="section-number">(${currentSection + 1} dari ${questionnaireData.sections.length})</span>
+                    </h2>
+                    ${section.description ? `<p class="section-description">${section.description}</p>` : ''}
+                </div>
+                ${questionsHTML}
+            `;
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            const section = questionnaireData.sections[currentSection];
+
+            if (isSubmitted) {
+                app.innerHTML = `
+                    <div class="submission-success">
+                        <div class="success-icon">✓</div>
+                        <h2>Terima Kasih!</h2>
+                        <p>Kuesioner Anda telah berhasil dikirim.</p>
+                        <p>Data telah diunduh sebagai file JSON.</p>
+                        <button onclick="resetForm()" class="btn btn-primary">Isi Kuesioner Baru</button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Skip evaluation sections if user hasn't participated
+            if (['konteks', 'masukan', 'proses', 'dampak'].includes(section.id)) {
+                const pernahMengikuti = getFormValue('keterlibatan', 'pernah_mengikuti');
+                if (pernahMengikuti !== 'ya') {
+                    app.innerHTML = `
+                        <div class="header">
+                            <h1>${questionnaireData.title}</h1>
+                            <h2 class="subtitle">${questionnaireData.subtitle}</h2>
+                            <p class="description">${questionnaireData.description}</p>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${((currentSection + 1) / questionnaireData.sections.length) * 100}%"></div>
+                            </div>
+                            <div class="progress-text">Langkah ${currentSection + 1} dari ${questionnaireData.sections.length}</div>
+                        </div>
+                        <div class="section-header">
+                            <h2>${section.title}</h2>
+                        </div>
+                        <div class="skip-section-message">
+                            <p>Bagian ini hanya untuk responden yang pernah mengikuti kegiatan Posyandu Remaja.</p>
+                            <p>Silakan lanjutkan ke bagian berikutnya.</p>
+                        </div>
+                        <div class="navigation-buttons">
+                            <button onclick="handlePrevious()" ${currentSection === 0 ? 'disabled' : ''} class="btn btn-secondary">← Sebelumnya</button>
+                            <button onclick="handleNext()" class="btn btn-primary">Selanjutnya →</button>
+                        </div>
+                    `;
+                    return;
+                }
+            }
+
+            app.innerHTML = `
+                <div class="header">
+                    <h1>${questionnaireData.title}</h1>
+                    <h2 class="subtitle">${questionnaireData.subtitle}</h2>
+                    <p class="description">${questionnaireData.description}</p>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${((currentSection + 1) / questionnaireData.sections.length) * 100}%"></div>
+                    </div>
+                    <div class="progress-text">Langkah ${currentSection + 1} dari ${questionnaireData.sections.length}</div>
+                </div>
+                ${renderSection(section)}
+                <div class="navigation-buttons">
+                    <button onclick="handlePrevious()" ${currentSection === 0 ? 'disabled' : ''} class="btn btn-secondary">← Sebelumnya</button>
+                    ${currentSection < questionnaireData.sections.length - 1 
+                        ? `<button onclick="handleNext()" class="btn btn-primary">Selanjutnya →</button>`
+                        : `<button onclick="handleSubmit()" class="btn btn-submit">Kirim Kuesioner</button>`
+                    }
+                </div>
+            `;
+        }
+
+        // Event Handlers
+        function updateField(sectionId, fieldId, value) {
+            if (!formData[sectionId]) {
+                formData[sectionId] = {};
+            }
+            formData[sectionId][fieldId] = value;
+            
+            // Clear error for this field
+            if (errors[sectionId]) {
+                delete errors[sectionId][fieldId];
+            }
+
+            // Re-render if conditional questions need to show/hide
+            render();
+        }
+
+        function handleCheckboxChange(sectionId, fieldId, optionValue, checked) {
+            if (!formData[sectionId]) {
+                formData[sectionId] = {};
+            }
+            const currentValues = Array.isArray(formData[sectionId][fieldId]) ? formData[sectionId][fieldId] : [];
+            if (checked) {
+                formData[sectionId][fieldId] = [...currentValues, optionValue];
+            } else {
+                formData[sectionId][fieldId] = currentValues.filter(v => v !== optionValue);
+            }
+            render();
+        }
+
+        function handleNext() {
+            const section = questionnaireData.sections[currentSection];
+
+            // Skip evaluation sections if user hasn't participated
+            if (['konteks', 'masukan', 'proses', 'dampak'].includes(section.id)) {
+                const pernahMengikuti = getFormValue('keterlibatan', 'pernah_mengikuti');
+                if (pernahMengikuti !== 'ya') {
+                    if (currentSection < questionnaireData.sections.length - 1) {
+                        currentSection++;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        render();
+                    }
+                    return;
+                }
+            }
+
+            const sectionErrors = validateSection(section);
+            if (Object.keys(sectionErrors).length > 0) {
+                errors[section.id] = sectionErrors;
+                render();
+                return;
+            }
+
+            // Check consent
+            if (section.id === 'informed_consent') {
+                const consent = getFormValue('informed_consent', 'consent_agreement');
+                if (consent !== 'setuju') {
+                    errors.informed_consent = {
+                        consent_agreement: 'Anda harus menyetujui untuk berpartisipasi dalam penelitian ini untuk melanjutkan.'
+                    };
+                    render();
+                    return;
+                }
+            }
+
+            if (currentSection < questionnaireData.sections.length - 1) {
+                currentSection++;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                render();
+            }
+        }
+
+        function handlePrevious() {
+            if (currentSection > 0) {
+                currentSection--;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                render();
+            }
+        }
+
+        let isSubmitted = false;
+
+        function handleSubmit() {
+            const section = questionnaireData.sections[currentSection];
+            const sectionErrors = validateSection(section);
+            
+            if (Object.keys(sectionErrors).length > 0) {
+                errors[section.id] = sectionErrors;
+                render();
+                return;
+            }
+
+            // Validate all sections
+            let allErrors = {};
+            questionnaireData.sections.forEach(s => {
+                const secErrors = validateSection(s);
+                if (Object.keys(secErrors).length > 0) {
+                    allErrors[s.id] = secErrors;
+                }
+            });
+
+            if (Object.keys(allErrors).length > 0) {
+                errors = allErrors;
+                const firstErrorSection = questionnaireData.sections.findIndex(s => allErrors[s.id]);
+                if (firstErrorSection !== -1) {
+                    currentSection = firstErrorSection;
+                }
+                render();
+                return;
+            }
+
+            // Submit form
+            const finalData = {
+                timestamp: new Date().toISOString(),
+                responses: formData
+            };
+
+            const dataStr = JSON.stringify(finalData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `kuesioner-posyandu-${Date.now()}.json`;
+            link.click();
+
+            isSubmitted = true;
+            render();
+        }
+
+        function resetForm() {
+            currentSection = 0;
+            formData = {};
+            errors = {};
+            isSubmitted = false;
+            render();
+        }
+
+        // Initialize
+        render();
+    </script>
+</body>
+</html>
+

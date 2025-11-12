@@ -1,34 +1,37 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
+package-lock.json
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Build files
+build/
+dist/
 
-# testing
-/coverage
+# React files (no longer needed)
+src/
+public/
 
-# production
-/build
-
-# misc
+# OS files
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+desktop.ini
+Thumbs.db
 
+# Office temp files
+~$*
+*.docx
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Windows
-AppData/
-.ebookreader/
-desktop.ini
-~$*
-
-# Office temp files
-*.docx
-!node_modules/
-
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
