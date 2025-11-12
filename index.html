@@ -392,6 +392,52 @@
             margin-bottom: 10px;
         }
 
+        .thank-you-message {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .thank-you-message p {
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .contact-info strong {
+            color: #667eea;
+            min-width: 100px;
+            display: inline-block;
+        }
+
+        .final-thanks {
+            text-align: center;
+            font-size: 1.2rem !important;
+            color: #667eea !important;
+            margin-top: 25px !important;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
         .skip-section-message {
             background: #fff3cd;
             border: 2px solid #ffc107;
@@ -1407,8 +1453,18 @@
                     <div class="submission-success">
                         <div class="success-icon">✓</div>
                         <h2>Terima Kasih!</h2>
-                        <p>Kuesioner Anda telah berhasil dikirim.</p>
-                        <p>Data telah tersimpan ke database.</p>
+                        <p>Kuesioner Anda telah berhasil dikirim dan tersimpan.</p>
+                        <div class="thank-you-message">
+                            <p>Terima kasih telah meluangkan waktu untuk mengisi kuesioner ini. Jawaban Anda sangat berharga bagi penelitian kami dan akan membantu dalam peningkatan pemahaman mengenai efektivitas program Posyandu Remaja dalam mendukung kesehatan mental dan reproduksi remaja.</p>
+                            <p>Jika Anda memiliki pertanyaan lebih lanjut tentang penelitian ini atau ingin mendapatkan informasi lebih lanjut mengenai hasil penelitian, silakan hubungi:</p>
+                            <div class="contact-info">
+                                <p><strong>Nama:</strong> Een Kurnaesih</p>
+                                <p><strong>Institusi:</strong> Fakultas Ilmu Kesehatan, UPN Veteran Jakarta</p>
+                                <p><strong>No HP:</strong> 0812-2198-451</p>
+                            </div>
+                            <p>Jawaban Anda akan dijaga kerahasiaannya dan hanya digunakan untuk kepentingan penelitian.</p>
+                            <p class="final-thanks"><strong>Terima Kasih atas Partisipasi Anda!</strong></p>
+                        </div>
                         <button onclick="resetForm()" class="btn btn-primary">Isi Kuesioner Baru</button>
                     </div>
                 `;
