@@ -3,6 +3,12 @@
  * Copy paste kode ini ke Google Apps Script Editor
  */
 
+// Add doGet function for testing (optional)
+function doGet(e) {
+  return ContentService.createTextOutput('Kuesioner Posyandu Remaja API is running. Use POST method to submit data.')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
 function doPost(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
