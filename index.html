@@ -1194,6 +1194,29 @@
             `;
         }
 
+        function shouldShowSubmitButton() {
+            const pernahMengikuti = getFormValue('keterlibatan', 'pernah_mengikuti');
+            const section = questionnaireData.sections[currentSection];
+            
+            // If user hasn't participated, they only need to fill: informed_consent, identitas, keterlibatan
+            // So after keterlibatan, show submit button
+            if (pernahMengikuti === 'tidak' && section.id === 'keterlibatan') {
+                return true;
+            }
+            
+            // If we're on the last section
+            if (currentSection === questionnaireData.sections.length - 1) {
+                return true;
+            }
+            
+            // If user has participated and we're on the last evaluation section
+            if (pernahMengikuti === 'ya' && section.id === 'dampak') {
+                return true;
+            }
+            
+            return false;
+        }
+
         function renderSection(section) {
             const sectionData = formData[section.id] || {};
             let questionsHTML = '';
@@ -1280,9 +1303,9 @@
                 ${renderSection(section)}
                 <div class="navigation-buttons">
                     <button onclick="handlePrevious()" ${currentSection === 0 ? 'disabled' : ''} class="btn btn-secondary">← Sebelumnya</button>
-                    ${currentSection < questionnaireData.sections.length - 1 
-                        ? `<button onclick="handleNext()" class="btn btn-primary">Selanjutnya →</button>`
-                        : `<button onclick="handleSubmit()" class="btn btn-submit">Kirim Kuesioner</button>`
+                    ${shouldShowSubmitButton() 
+                        ? `<button onclick="handleSubmit()" class="btn btn-submit">Kirim Kuesioner</button>`
+                        : `<button onclick="handleNext()" class="btn btn-primary">Selanjutnya →</button>`
                     }
                 </div>
             `;
@@ -1319,19 +1342,7 @@
 
         function handleNext() {
             const section = questionnaireData.sections[currentSection];
-
-            // Skip evaluation sections if user hasn't participated
-            if (['konteks', 'masukan', 'proses', 'dampak'].includes(section.id)) {
-                const pernahMengikuti = getFormValue('keterlibatan', 'pernah_mengikuti');
-                if (pernahMengikuti !== 'ya') {
-                    if (currentSection < questionnaireData.sections.length - 1) {
-                        currentSection++;
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        render();
-                    }
-                    return;
-                }
-            }
+            const pernahMengikuti = getFormValue('keterlibatan', 'pernah_mengikuti');
 
             const sectionErrors = validateSection(section);
             if (Object.keys(sectionErrors).length > 0) {
@@ -1352,10 +1363,41 @@
                 }
             }
 
+            // If user hasn't participated and we're on keterlibatan section, go to submit
+            if (pernahMengikuti === 'tidak' && section.id === 'keterlibatan') {
+                handleSubmit();
+                return;
+            }
+
+            // Skip sections that don't apply to the user
             if (currentSection < questionnaireData.sections.length - 1) {
-                currentSection++;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                render();
+                let nextSectionIndex = currentSection + 1;
+                
+                // Skip sections that should be skipped based on user's answers
+                while (nextSectionIndex < questionnaireData.sections.length) {
+                    const nextSection = questionnaireData.sections[nextSectionIndex];
+                    
+                    // Skip evaluation sections if user hasn't participated
+                    if (pernahMengikuti === 'tidak' && ['partisipasi', 'konteks', 'masukan', 'proses', 'dampak'].includes(nextSection.id)) {
+                        nextSectionIndex++;
+                        continue;
+                    }
+                    
+                    // Skip partisipasi if user hasn't participated (it only has questions for those who participated)
+                    if (pernahMengikuti === 'tidak' && nextSection.id === 'partisipasi') {
+                        nextSectionIndex++;
+                        continue;
+                    }
+                    
+                    // Found a valid next section
+                    currentSection = nextSectionIndex;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    render();
+                    return;
+                }
+                
+                // If no more valid sections, submit
+                handleSubmit();
             }
         }
 
