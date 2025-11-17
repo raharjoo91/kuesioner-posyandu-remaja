@@ -26,6 +26,8 @@ function doPost(e) {
     // Identitas section
     const identitas = responses.identitas || {};
     row.push(
+      identitas.nama || '',
+      identitas.nomor_handphone || '',
       identitas.usia || '',
       identitas.tanggal_lahir || '',
       identitas.jenis_kelamin || '',
